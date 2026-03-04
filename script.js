@@ -1,14 +1,24 @@
-console.log("JavaScript working");
-document.getElementById("btn").addEventListener("click", function (e) {
-    e.preventDefault(); // page reload stop
+(function () {
+  emailjs.init("sfSUjNJdvoQAhw6_z"); // ✅ PUBLIC KEY
+})();
 
-    var name = document.getElementById("name").value;
-    var email = document.getElementById("email").value;
-    var message = document.getElementById("message").value;
+document.getElementById("contactForm").addEventListener("submit", function (e) {
+  e.preventDefault();
 
-    if (name === "" || email === "" || message === "") {
-        alert("Please fill all fields");
-    } else {
-        alert("Thank you " + name + "! Your message has been sent.");
-    }
+  emailjs.sendForm(
+    "service_fpqbtuu",   // ✅ SERVICE ID
+    "template_aujo8md",  // ✅ TEMPLATE ID
+    this
+  )
+  .then(function () {
+    document.getElementById("successMsg").innerText =
+      "Message sent successfully ✅";
+  })
+  .catch(function (error) {
+    document.getElementById("successMsg").innerText =
+      "Message failed ❌";
+    console.error("EmailJS Error:", error);
+  });
+
+  this.reset();
 });
